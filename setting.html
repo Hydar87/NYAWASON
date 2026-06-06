@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enterprise Admin Dashboard - Settings</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="style2.css" />
+        
+</head>
+<body>
+
+    <nav class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <span class="logo-text">Dashboard</span>
+            <i class="fas fa-bars" id="menu-toggle"></i>
+        </div>
+        <ul class="sidebar-menu">
+            <li><a href="#" class="menu-item active" data-page="home-view" data-title="Dashboard"><i class="fas fa-home"></i><span class="menu-text">Home</span></a></li>
+            <li><a href="#" class="menu-item" data-page="home-view" data-title="Analytics"><i class="fas fa-chart-line"></i><span class="menu-text">Analytics</span></a></li>
+            <li><a href="#" class="menu-item" data-page="home-view" data-title="Payments"><i class="fas fa-wallet"></i><span class="menu-text">Payments</span></a></li>
+            <li><a href="#" class="menu-item" data-page="settings-view" data-title="Settings"><i class="fas fa-cog"></i><span class="menu-text">Settings</span></a></li>
+        </ul>
+    </nav>
+
+    <div class="app-container">
+        
+        <header class="top-header">
+            <div class="header-left"><h1 id="header-title">Dashboard</h1></div>
+            <div class="header-center">
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="dashboard-search" placeholder="Search user names...">
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="icon-badge"><i class="fas fa-envelope"></i><span class="badge">3</span></div>
+                <div class="icon-badge"><i class="fas fa-bell"></i><span class="badge">5</span></div>
+                <div class="profile-section" id="header-profile-trigger">
+                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=60" alt="Profile" class="profile-img" id="global-avatar-img">
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+            </div>
+        </header>
+
+        <main class="page-content active" id="home-view">
+            <h1>Welcome Back</h1>
+            <p class="page-subtitle">Overview data and live status log reporting indicators.</p>
+            
+            <div class="card-grid">
+                <div class="card">
+                    <div class="card-icon style-day"><i class="fas fa-bolt"></i></div>
+                    <div class="card-info"><h3>Last 24 Hours</h3><p class="card-amount">$1,240.00</p></div>
+                </div>
+                <div class="card">
+                    <div class="card-icon style-week"><i class="fas fa-calendar-week"></i></div>
+                    <div class="card-info"><h3>This Week</h3><p class="card-amount">$8,560.50</p></div>
+                </div>
+                <div class="card">
+                    <div class="card-icon style-month"><i class="fas fa-chart-pie"></i></div>
+                    <div class="card-info"><h3>This Month</h3><p class="card-amount">$34,200.00</p></div>
+                </div>
+            </div>
+
+            <div class="table-container">
+                <div class="table-header"><h2>Recent Account Transaction Ledger</h2></div>
+                <table class="data-table" id="payment-table">
+                    <thead>
+                        <tr><th>User Client</th><th>Billing Email</th><th>Payment Date</th><th>Amount</th><th>Status</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr data-name="John Doe" data-email="john@example.com" data-date="Jun 06, 2026" data-amount="$350.00" data-status="Completed" data-id="#TXN-8841">
+                            <td><div class="user-cell"><div class="avatar-txt">JD</div><strong>John Doe</strong></div></td>
+                            <td>john@example.com</td><td>Jun 06, 2026</td><td><strong>$350.00</strong></td><td><span class="status-badge status-success">Completed</span></td>
+                        </tr>
+                        <tr data-name="Alice Smith" data-email="alice.s@example.com" data-date="Jun 06, 2026" data-amount="$120.50" data-status="Completed" data-id="#TXN-9023">
+                            <td><div class="user-cell"><div class="avatar-txt">AS</div><strong>Alice Smith</strong></div></td>
+                            <td>alice.s@example.com</td><td>Jun 06, 2026</td><td><strong>$120.50</strong></td><td><span class="status-badge status-success">Completed</span></td>
+                        </tr>
+                        <tr data-name="Bob Ross" data-email="paint@example.com" data-date="Jun 05, 2026" data-amount="$89.00" data-status="Pending" data-id="#TXN-1142">
+                            <td><div class="user-cell"><div class="avatar-txt">BR</div><strong>Bob Ross</strong></div></td>
+                            <td>paint@example.com</td><td>Jun 05, 2026</td><td><strong>$89.00</strong></td><td><span class="status-badge status-pending">Pending</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div id="no-results">No users found matching your search.</div>
+            </div>
+        </main>
+
+        <main class="page-content" id="settings-view">
+            <h1>System Settings</h1>
+            <p class="page-subtitle">Configure system parameters, administrative profile data metrics, and gateway routing pipelines.</p>
+
+            <div class="settings-layout">
+                <aside class="settings-sub-nav">
+                    <ul class="settings-menu">
+                        <li><button class="settings-tab-btn active" data-pane="pane-profile"><i class="fas fa-user-shield"></i> Profile Details</button></li>
+                        <li><button class="settings-tab-btn" data-pane="pane-security"><i class="fas fa-lock"></i> Change Password</button></li>
+                        <li><button class="settings-tab-btn" data-pane="pane-gateway"><i class="fas fa-credit-card"></i> Payment Gateway</button></li>
+                    </ul>
+                    <button class="settings-tab-btn btn-logout" id="btn-session-logout"><i class="fas fa-sign-out-alt"></i> Log Out Session</button>
+                </aside>
+
+                <div class="settings-form-pane active" id="pane-profile">
+                    <h2>Profile About Admin</h2>
+                    <p class="section-desc">Manage administrative personal core identity credentials and system contact pathways.</p>
+                    
+                    <div class="avatar-upload-box">
+                        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=60" alt="Admin Profile Preview" class="large-avatar-preview" id="admin-settings-avatar">
+                        <div class="upload-actions">
+                            <h4>Profile Picture</h4>
+                            <p class="section-desc" style="margin-bottom: 8px;">PNG or JPG up to 2MB magnitude.</p>
+                            <button class="btn-secondary" onclick="alert('Image upload action triggered!')"><i class="fas fa-upload"></i> Upload Photo</button>
+                        </div>
+                    </div>
+
+                    <form onsubmit="event.preventDefault(); alert('Profile credentials updated successfully!');">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Admin Full Name</label>
+                                <input type="text" value="Alex Doe">
+                            </div>
+                            <div class="form-group">
+                                <label>Admin Email Address</label>
+                                <input type="email" value="alex.doe@enterprise.com">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Residential Identity ID Number</label>
+                                <input type="text" value="ID-9958-2041" disabled>
+                            </div>
+                            <div class="form-group">
+                                <label>Company Corporate ID Number</label>
+                                <input type="text" value="CORP-EMPID-2026" disabled>
+                            </div>
+                        </div>
+                        <div class="form-group full-width" style="margin-bottom: 20px;">
+                            <label>Physical Address Location</label>
+                            <input type="text" value="742 Evergreen Terrace, Suite 100, Sector 7G">
+                        </div>
+                        <button type="submit" class="btn-primary">Save Changes</button>
+                    </form>
+                </div>
+
+                <div class="settings-form-pane" id="pane-security">
+                    <h2>Change System Password</h2>
+                    <p class="section-desc">Ensure high enterprise data protection by keeping standard credentials modified regularly.</p>
+                    <form onsubmit="event.preventDefault(); alert('Password securely rotated!'); this.reset();">
+                        <div class="form-group full-width" style="margin-bottom: 15px;">
+                            <label>Current Credentials Key</label>
+                            <input type="password" placeholder="••••••••••••" required>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>New Password</label>
+                                <input type="password" placeholder="Min 8 characters" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Confirm New Password</label>
+                                <input type="password" placeholder="Repeat character set" required>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn-primary" style="margin-top: 10px;">Update Password</button>
+                    </form>
+                </div>
+
+                <div class="settings-form-pane" id="pane-gateway">
+                    <h2>Payment Gateway Configuration</h2>
+                    <p class="section-desc">Configure target banking node routing fields and transactional API integrations.</p>
+                    <form onsubmit="event.preventDefault(); alert('Gateway connection configuration synchronized!');">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Primary Gateway Selector Provider</label>
+                                <select>
+                                    <option value="stripe">Stripe Merchant Services</option>
+                                    <option value="paypal">PayPal Commerce Engine</option>
+                                    <option value="braintree">Braintree Global Node</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Integration Environment Mode</label>
+                                <select>
+                                    <option value="production">Live Production Environment</option>
+                                    <option value="sandbox">Sandbox Test Engine Development</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group full-width" style="margin-bottom: 20px;">
+                            <label>Secret Live API Authorization Token Token String Key</label>
+                            <input type="password" value="sk_live_2026_55910482371946027482">
+                        </div>
+                        <button type="submit" class="btn-primary">Synchronize Nodes</button>
+                    </form>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <div class="modal-overlay" id="user-modal">
+        <div class="modal-box">
+            <i class="fas fa-times close-modal" id="close-modal-btn"></i>
+            <div class="modal-profile-header">
+                <div class="modal-avatar" id="modal-avatar-logo">??</div>
+                <h3 id="modal-user-name">User Name</h3>
+                <p id="modal-user-email">user@example.com</p>
+            </div>
+            <div class="detail-row"><span class="detail-label">Transaction ID</span><span class="detail-value" id="modal-id">#TXN-0000</span></div>
+            <div class="detail-row"><span class="detail-label">Date of Transfer</span><span class="detail-value" id="modal-date">N/A</span></div>
+            <div class="detail-row"><span class="detail-label">Settled Amount</span><span class="detail-value" style="color: var(--accent-color);" id="modal-amount">$0.00</span></div>
+            <div class="detail-row"><span class="detail-label">Transfer Status</span><span class="detail-value" id="modal-status">Unknown</span></div>
+        </div>
+    </div>
+
+    <script>
+        // DOM Element Cache Selectors
+        const menuToggle = document.getElementById('menu-toggle');
+        const sidebar = document.getElementById('sidebar');
+        const headerTitle = document.getElementById('header-title');
+        const menuItems = document.querySelectorAll('.sidebar .menu-item');
+        const pageViews = document.querySelectorAll('.page-content');
+        
+        const searchInput = document.getElementById('dashboard-search');
+        const tableRows = document.querySelectorAll('#payment-table tbody tr');
+        const noResults = document.getElementById('no-results');
+
+        const userModal = document.getElementById('user-modal');
+        const closeModalBtn = document.getElementById('close-modal-btn');
+
+        /* 1. Global Navigation Routing Control (SPA Page Switcher) */
+        menuItems.forEach(item => {
+            item.addEventListener('click', (e) => {
+                e.preventDefault();
+                
+                // Highlight active item
+                menuItems.forEach(i => i.classList.remove('active'));
+                item.classList.add('active');
+                
+                // Update Top Header Text Dynamic Readout
+                const targetTitle = item.getAttribute('data-title');
+                headerTitle.textContent = targetTitle;
+
+                // View Switch Routing Execution
+                const targetPageId = item.getAttribute('data-page');
+                pageViews.forEach(page => {
+                    if (page.id === targetPageId) {
+                        page.classList.add('active');
+                    } else {
+                        page.classList.remove('active');
+                    }
+                });
+            });
+        });
+
+        /* 2. Settings Inner Sub-Tab Swapping Module Engine */
+        const settingTabs = document.querySelectorAll('.settings-tab-btn:not(#btn-session-logout)');
+        const settingPanes = document.querySelectorAll('.settings-form-pane');
+
+        settingTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                settingTabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+
+                const targetPaneId = tab.getAttribute('data-pane');
+                settingPanes.forEach(pane => {
+                    if (pane.id === targetPaneId) {
+                        pane.classList.add('active');
+                    } else {
+                        pane.classList.remove('active');
+                    }
+                });
+            });
+        });
+
+        /* 3. Log out Session Event Trigger Action */
+        document.getElementById('btn-session-logout').addEventListener('click', () => {
+            if (confirm("Are you sure you want to terminate this operational dashboard administrative session?")) {
+                alert("Session terminated securely. Redirecting user authentication layer to Login view gateway loop...");
+                window.location.reload(); // Restores clean state sequence on trigger
+            }
+        });
+
+        /* 4. Live Dynamic Transaction Search Filters */
+        searchInput.addEventListener('input', (e) => {
+            const queryValue = e.target.value.toLowerCase().trim();
+            let matchesFound = false;
+
+            tableRows.forEach(row => {
+                const userName = row.getAttribute('data-name').toLowerCase();
+                if (userName.includes(queryValue)) {
+                    row.style.display = '';
+                    matchesFound = true;
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+            noResults.style.display = matchesFound ? 'none' : 'block';
+        });
+
+        /* 5. User Row Profile Details Click Modal Handler */
+        tableRows.forEach(row => {
+            row.addEventListener('click', () => {
+                document.getElementById('modal-user-name').textContent = row.getAttribute('data-name');
+                document.getElementById('modal-user-email').textContent = row.getAttribute('data-email');
+                document.getElementById('modal-date').textContent = row.getAttribute('data-date');
+                document.getElementById('modal-amount').textContent = row.getAttribute('data-amount');
+                document.getElementById('modal-status').textContent = row.getAttribute('data-status');
+                document.getElementById('modal-id').textContent = row.getAttribute('data-id');
+
+                const initials = row.getAttribute('data-name').split(' ').map(n => n[0]).join('');
+                document.getElementById('modal-avatar-logo').textContent = initials;
+                userModal.classList.add('active');
+            });
+        });
+
+        closeModalBtn.addEventListener('click', () => userModal.classList.remove('active'));
+        window.addEventListener('click', (e) => { if (e.target === userModal) userModal.classList.remove('active'); });
+        menuToggle.addEventListener('click', () => sidebar.classList.toggle('collapsed'));
+    </script>
+</body>
+</html>

@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Collapsible Sidebar & Header Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* --- CSS Global Variables & Theme Controls --- */
+        :root {
+            --sidebar-bg: #1e1e24;
+            --sidebar-hover: #33333d;
+            --text-color: #ffffff;
+            --accent-color: #4f46e5;
+            --bg-light: #f4f5f7;
+            --card-bg: #ffffff;
+            --border-color: #e5e7eb;
+            --text-muted: #64748b;
+            --text-dark: #0f172a;
+            
+            /* Status Colors */
+            --success: #10b981;
+            --success-bg: #ecfdf5;
+            --pending: #f59e0b;
+            --pending-bg: #fef3c7;
+            --failed: #ef4444;
+            --failed-bg: #fef2f2;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            display: flex;
+            background-color: var(--bg-light);
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* --- 1. Sidebar Component Styles --- */
+        .sidebar {
+            width: 260px;
+            background-color: var(--sidebar-bg);
+            height: 100%;
+            transition: width 0.3s ease;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            flex-shrink: 0;
+        }
+
+        .sidebar.collapsed {
+            width: 70px;
+        }
+
+        .sidebar-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px;
+            color: var(--text-color);
+            border-bottom: 1px solid var(--sidebar-hover);
+        }
+
+        .logo-text {
+            font-size: 1.2rem;
+            font-weight: bold;
+            white-space: nowrap;
+            transition: opacity 0.2s ease;
+        }
+
+        .sidebar.collapsed .logo-text,
+        .sidebar.collapsed .menu-text {
+            opacity: 0;
+            pointer-events: none;
+            width: 0;
+            display: none;
+        }
+
+        #menu-toggle {
+            cursor: pointer;
+            font-size: 1.3rem;
+            padding: 10px;
+            border-radius: 8px;
+            transition: background 0.2s;
+        }
+
+        #menu-toggle:hover {
+            background-color: var(--sidebar-hover);
+        }
+
+        .sidebar-menu {
+            list-style: none;
+            margin-top: 20px;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            padding: 15px 22px;
+            color: #b3b3b3;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+            border-left: 4px solid transparent;
+        }
+
+        .menu-item:hover, .menu-item.active {
+            background-color: var(--sidebar-hover);
+            color: var(--text-color);
+            border-left: 4px solid var(--accent-color);
+        }
+
+        .menu-item i {
+            font-size: 1.2rem;
+            min-width: 30px;
+        }
+
+        .menu-text {
+            margin-left: 5px;
+            transition: opacity 0.2s ease;
+        }
+
+        /* --- 2. Main Work Container Layout --- */
+        .app-container {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            overflow-y: auto;
+        }
+
+        /* --- 3. Top Header Component --- */
+        .top-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: var(--card-bg);
+            padding: 15px 40px;
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        #header-title {
+            font-size: 1.5rem;
+            color: var(--text-dark);
+            font-weight: 600;
+        }
+
+        .search-bar {
+            background: #f1f5f9;
+            padding: 8px 15px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            width: 300px;
+            border: 1px solid transparent;
+        }
+
+        .search-bar:focus-within {
+            border-color: var(--accent-color);
+            background: #fff;
+        }
+
+        .search-bar i {
+            color: var(--text-muted);
+        }
+
+        .search-bar input {
+            border: none;
+            background: transparent;
+            margin-left: 10px;
+            outline: none;
+            width: 100%;
+            color: var(--text-dark);
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .icon-badge {
+            position: relative;
+            cursor: pointer;
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            padding: 5px;
+            transition: color 0.2s;
+        }
+
+        .icon-badge:hover {
+            color: var(--text-dark);
+        }
+
+        .badge {
+            position: absolute;
+            top: -2px;
+            right: -2px;
+            background: var(--failed);
+            color: white;
+            font-size: 0.65rem;
+            padding: 2px 5px;
+            border-radius: 10px;
+            font-weight: bold;
+        }
+
+        .profile-section {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            padding-left: 15px;
+            border-left: 1px solid var(--border-color);
+        }
+
+        .profile-img {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .profile-icon {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        /* --- 4. Content Area Container --- */
+        .content-body {
+            padding: 40px;
+            max-width: 1600px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        .content-body h1 {
+            font-size: 1.75rem;
+            color: var(--text-dark);
+            margin-bottom: 5px;
+        }
+
+        .page-subtitle {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 25px;
+        }
+
+        /* --- 5. Metric Cards Layout Line --- */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); /* Locks strict execution layout line */
+            gap: 24px;
+            margin-bottom: 35px;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 24px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            border: 1px solid var(--border-color);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+        }
+
+        .card-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.3rem;
+        }
+
+        .style-day { background-color: #ecfdf5; color: var(--success); }
+        .style-week { background-color: #eff6ff; color: #3b82f6; }
+        .style-month { background-color: #f5f3ff; color: #8b5cf6; }
+
+        .card-info h3 {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
+        }
+
+        .card-amount {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 4px;
+        }
+
+        .card-trend {
+            font-size: 0.8rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .trend-up { color: var(--success); }
+        .trend-down { color: var(--failed); }
+
+        /* --- 6. Responsive Custom Component: Modern Data Table --- */
+        .table-container {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
+        }
+
+        .table-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .table-header h2 {
+            font-size: 1.1rem;
+            color: var(--text-dark);
+            font-weight: 600;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        .data-table th {
+            background-color: #f8fafc;
+            padding: 14px 24px;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-muted);
+            font-weight: 600;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .data-table td {
+            padding: 16px 24px;
+            font-size: 0.9rem;
+            color: var(--text-dark);
+            border-bottom: 1px solid var(--border-color);
+            vertical-align: middle;
+        }
+
+        .data-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .data-table tr:hover td {
+            background-color: #f8fafc;
+        }
+
+        /* User Identity formatting in Table */
+        .user-cell {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .avatar-txt {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: #e2e8f0;
+            color: var(--text-dark);
+            font-weight: 600;
+            font-size: 0.8rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Status Badges Styling */
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: capitalize;
+        }
+
+        .status-badge::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+        }
+
+        .status-success { background-color: var(--success-bg); color: var(--success); }
+        .status-success::before { background-color: var(--success); }
+
+        .status-pending { background-color: var(--pending-bg); color: var(--pending); }
+        .status-pending::before { background-color: var(--pending); }
+
+        .status-failed { background-color: var(--failed-bg); color: var(--failed); }
+        .status-failed::before { background-color: var(--failed); }
+
+        /* Media Breakpoint Query protection against text overflow squash */
+        @media (max-width: 1024px) {
+            .card-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <span class="logo-text">Dashboard</span>
+            <i class="fas fa-bars" id="menu-toggle"></i>
+        </div>
+
+        <ul class="sidebar-menu">
+            <li>
+                <a href="#" class="menu-item active" data-title="Dashboard">
+                    <i class="fas fa-home"></i>
+                    <span class="menu-text">Home</span>
+                </a>
+            </li>
+            <li>
+                <a href="#" class="menu-item" data-title="Analytics">
+                    <i class="fas fa-chart-line"></i>
+                    <span class="menu-text">Analytics</span>
+                </a>
+            </li>
+            <li>
+                <a href="#" class="menu-item" data-title="Payments">
+                    <i class="fas fa-wallet"></i>
+                    <span class="menu-text">Payments</span>
+                </a>
+            </li>
+            <li>
+                <a href="#" class="menu-item" data-title="Settings">
+                    <i class="fas fa-cog"></i>
+                    <span class="menu-text">Settings</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <div class="app-container">
+        
+        <header class="top-header">
+            <div class="header-left">
+                <h1 id="header-title">Dashboard</h1>
+            </div>
+            
+            <div class="header-center">
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search...">
+                </div>
+            </div>
+
+            <div class="header-right">
+                <div class="icon-badge">
+                    <i class="fas fa-envelope"></i>
+                    <span class="badge">3</span>
+                </div>
+                <div class="icon-badge">
+                    <i class="fas fa-bell"></i>
+                    <span class="badge">5</span>
+                </div>
+                <div class="profile-section">
+                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=60" alt="Profile Picture" class="profile-img">
+                    <i class="fas fa-chevron-down profile-icon"></i>
+                </div>
+            </div>
+        </header>
+
+        <main class="content-body">
+            <h1>Welcome Back</h1>
+            <p class="page-subtitle">Overview data and live status log reporting indicators.</p>
+            
+            <div class="card-grid">
+                <div class="card">
+                    <div class="card-icon style-day">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <div class="card-info">
+                        <h3>Last 24 Hours</h3>
+                        <p class="card-amount">$1,240.00</p>
+                        <span class="card-trend trend-up">
+                            <i class="fas fa-arrow-up"></i> +12% vs yesterday
+                        </span>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon style-week">
+                        <i class="fas fa-calendar-week"></i>
+                    </div>
+                    <div class="card-info">
+                        <h3>This Week</h3>
+                        <p class="card-amount">$8,560.50</p>
+                        <span class="card-trend trend-up">
+                            <i class="fas fa-arrow-up"></i> +8.2% vs last week
+                        </span>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon style-month">
+                        <i class="fas fa-chart-pie"></i>
+                    </div>
+                    <div class="card-info">
+                        <h3>This Month</h3>
+                        <p class="card-amount">$34,200.00</p>
+                        <span class="card-trend trend-down">
+                            <i class="fas fa-arrow-down"></i> -2.4% vs last month
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="table-container">
+                <div class="table-header">
+                    <h2>Recent Account Transaction Ledger</h2>
+                </div>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>User Client</th>
+                            <th>Billing Email</th>
+                            <th>Payment Date</th>
+                            <th>Amount</th>
+                            <th>Status Badge</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><div class="user-cell"><div class="avatar-txt">JD</div><strong>John Doe</strong></div></td>
+                            <td>john@example.com</td>
+                            <td>Jun 06, 2026</td>
+                            <td><strong>$350.00</strong></td>
+                            <td><span class="status-badge status-success">Completed</span></td>
+                        </tr>
+                        <tr>
+                            <td><div class="user-cell"><div class="avatar-txt">AS</div><strong>Alice Smith</strong></div></td>
+                            <td>alice.s@example.com</td>
+                            <td>Jun 06, 2026</td>
+                            <td><strong>$120.50</strong></td>
+                            <td><span class="status-badge status-success">Completed</span></td>
+                        </tr>
+                        <tr>
+                            <td><div class="user-cell"><div class="avatar-txt">BR</div><strong>Bob Ross</strong></div></td>
+                            <td>paint@example.com</td>
+                            <td>Jun 05, 2026</td>
+                            <td><strong>$89.00</strong></td>
+                            <td><span class="status-badge status-pending">Pending</span></td>
+                        </tr>
+                        <tr>
+                            <td><div class="user-cell"><div class="avatar-txt">EM</div><strong>Emma Miller</strong></div></td>
+                            <td>emma@example.com</td>
+                            <td>Jun 05, 2026</td>
+                            <td><strong>$1,200.00</strong></td>
+                            <td><span class="status-badge status-success">Completed</span></td>
+                        </tr>
+                        <tr>
+                            <td><div class="user-cell"><div class="avatar-txt">MW</div><strong>Michael Wong</strong></div></td>
+                            <td>wong.m@example.com</td>
+                            <td>Jun 04, 2026</td>
+                            <td><strong>$45.00</strong></td>
+                            <td><span class="status-badge status-failed">Failed</span></td>
+                        </tr>
+                        <tr>
+                            <td><div class="user-cell"><div class="avatar-txt">SB</div><strong>Sarah Brown</strong></div></td>
+                            <td>sarah.b@example.com</td>
+                            <td>Jun 04, 2026</td>
+                            <td><strong>$210.00</strong></td>
+                            <td><span class="status-badge status-success">Completed</span></td>
+                        </tr>
+                        <tr>
+                            <td><div class="user-cell"><div class="avatar-txt">DV</div><strong>David Vance</strong></div></td>
+                            <td>vance@example.com</td>
+                            <td>Jun 03, 2026</td>
+                            <td><strong>$540.00</strong></td>
+                            <td><span class="status-badge status-success">Completed</span></td>
+                        </tr>
+                        <tr>
+                            <td><div class="user-cell"><div class="avatar-txt">LH</div><strong>Lily Hunter</strong></div></td>
+                            <td>lily@example.com</td>
+                            <td>Jun 02, 2026</td>
+                            <td><strong>$99.99</strong></td>
+                            <td><span class="status-badge status-pending">Pending</span></td>
+                        </tr>
+                        <tr>
+                            <td><div class="user-cell"><div class="avatar-txt">tc</div><strong>Tom Cruise</strong></div></td>
+                            <td>mission@example.com</td>
+                            <td>May 31, 2026</td>
+                            <td><strong>$450.00</strong></td>
+                            <td><span class="status-badge status-success">Completed</span></td>
+                        </tr>
+                        <tr>
+                            <td><div class="user-cell"><div class="avatar-txt">JW</div><strong>James Wright</strong></div></td>
+                            <td>wright.j@example.com</td>
+                            <td>May 30, 2026</td>
+                            <td><strong>$15.00</strong></td>
+                            <td><span class="status-badge status-failed">Failed</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        const menuToggle = document.getElementById('menu-toggle');
+        const sidebar = document.getElementById('sidebar');
+        const headerTitle = document.getElementById('header-title');
+        const menuItems = document.querySelectorAll('.menu-item');
+
+        // Sidebar Collapse Handler
+        menuToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('collapsed');
+        });
+
+        // Interactive View Navigation Title Switch Engine
+        menuItems.forEach(item => {
+            item.addEventListener('click', (e) => {
+                e.preventDefault();
+                
+                // Track selected component highlights
+                menuItems.forEach(i => i.classList.remove('active'));
+                item.classList.add('active');
+                
+                // Match Header text field instantly to link clicked
+                const targetTitle = item.getAttribute('data-title');
+                headerTitle.textContent = targetTitle;
+            });
+        });
+    </script>
+</body>
+</html>

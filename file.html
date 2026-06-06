@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Collapsible Sidebar & Header</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style1.css" />
+</head>
+<body>
+
+    <nav class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <span class="logo-text">Dashboard</span>
+            <i class="fas fa-bars" id="menu-toggle"></i>
+        </div>
+
+        <ul class="sidebar-menu">
+            <li>
+                <a href="#" class="menu-item active" data-title="Dashboard">
+                    <i class="fas fa-home"></i>
+                    <span class="menu-text">Home</span>
+                </a>
+            </li>
+            <li>
+                <a href="#" class="menu-item" data-title="Analytics">
+                    <i class="fas fa-chart-line"></i>
+                    <span class="menu-text">Analytics</span>
+                </a>
+            </li>
+            <li>
+                <a href="#" class="menu-item" data-title="Payments">
+                    <i class="fas fa-wallet"></i>
+                    <span class="menu-text">Payments</span>
+                </a>
+            </li>
+            <li>
+                <a href="#" class="menu-item" data-title="Settings">
+                    <i class="fas fa-cog"></i>
+                    <span class="menu-text">Settings</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <div class="app-container">
+        <header class="top-header">
+            <div class="header-left">
+                <h1 id="header-title">Dashboard</h1>
+            </div>
+            
+            <div class="header-center">
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search...">
+                </div>
+            </div>
+
+            <div class="header-right">
+                <div class="icon-badge">
+                    <i class="fas fa-envelope"></i>
+                    <span class="badge">3</span>
+                </div>
+                <div class="icon-badge">
+                    <i class="fas fa-bell"></i>
+                    <span class="badge">5</span>
+                </div>
+                <div class="profile-section">
+                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=60" alt="Profile Picture" class="profile-img">
+                    <i class="fas fa-chevron-down profile-icon"></i>
+                </div>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <p>Click the menu items on the sidebar to see the header title switch dynamically.</p>
+        </main>
+    </div>
+
+
+    <div class="content-body">
+    <h1>Welcome Back</h1>
+    
+    <div class="card-grid">
+        <div class="card">
+            <div class="card-icon style-day">
+                <i class="fas fa-bolt"></i>
+            </div>
+            <div class="card-info">
+                <h3>Last 24 Hours</h3>
+                <p class="card-amount">$1,240.00</p>
+                <span class="card-trend trend-up">
+                    <i class="fas fa-arrow-up"></i> +12% vs yesterday
+                </span>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-icon style-week">
+                <i class="fas fa-calendar-week"></i>
+            </div>
+            <div class="card-info">
+                <h3>This Week</h3>
+                <p class="card-amount">$8,560.50</p>
+                <span class="card-trend trend-up">
+                    <i class="fas fa-arrow-up"></i> +8.2% vs last week
+                </span>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-icon style-month">
+                <i class="fas fa-chart-pie"></i>
+            </div>
+            <div class="card-info">
+                <h3>This Month</h3>
+                <p class="card-amount">$34,200.00</p>
+                <span class="card-trend trend-down">
+                    <i class="fas fa-arrow-down"></i> -2.4% vs last month
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <p style="margin-top: 20px;">Main content area continues here...</p>
+</div>
+
+    <script>
+        const menuToggle = document.getElementById('menu-toggle');
+        const sidebar = document.getElementById('sidebar');
+        const headerTitle = document.getElementById('header-title');
+        const menuItems = document.querySelectorAll('.menu-item');
+
+        // Sidebar Collapse Toggle
+        menuToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('collapsed');
+        });
+
+        // Dynamic Title Switching & Active Class Update
+        menuItems.forEach(item => {
+            item.addEventListener('click', (e) => {
+                e.preventDefault();
+                
+                // Remove active class from all items, add to clicked item
+                menuItems.forEach(i => i.classList.remove('active'));
+                item.classList.add('active');
+                
+                // Update header text based on data-title attribute
+                const targetTitle = item.getAttribute('data-title');
+                headerTitle.textContent = targetTitle;
+            });
+        });
+    </script>
+
+</body>
+</html>
