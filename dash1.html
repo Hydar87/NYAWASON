@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hotspot Billing Admin</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header class="mobile-header">
+        <button id="menu-toggle" class="toggle-btn"><i class="fas fa-bars"></i></button>
+        <div class="mobile-logo">NetSpot Admin</div>
+    </header>
+
+    <div class="app-container">
+        <aside class="sidebar" id="sidebar" data-state="full">
+            <div class="sidebar-header">
+                <div class="logo-group">
+                    <i class="fas fa-wifi logo-icon"></i>
+                    <span class="logo-text">NetSpot Billing</span>
+                </div>
+                <button id="sidebar-pin-toggle" class="pin-btn">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+
+            <nav class="sidebar-nav">
+                <div class="nav-section">
+                    <span class="section-title">Core Operations</span>
+                    
+                    <a href="#" class="nav-item active">
+                        <i class="fas fa-chart-pie"></i>
+                        <span class="menu-text">Dashboard</span>
+                    </a>
+                    
+                    <a href="#" class="nav-item">
+                        <i class="fas fa-users-ray"></i>
+                        <span class="menu-text">Active Sessions</span>
+                        <span class="badge badge-success">42</span>
+                    </a>
+                    
+                    <a href="#" class="nav-item">
+                        <i class="fas fa-router"></i>
+                        <span class="menu-text">Access Points</span>
+                        <span class="badge badge-danger">1</span>
+                    </a>
+                </div>
+
+                <div class="nav-section">
+                    <span class="section-title">Management</span>
+                    
+                    <div class="dropdown-wrapper">
+                        <button class="nav-item dropdown-btn">
+                            <i class="fas fa-ticket-alt"></i>
+                            <span class="menu-text">Users & Vouchers</span>
+                            <i class="fas fa-chevron-down arrow-icon"></i>
+                        </button>
+                        <div class="dropdown-container">
+                            <a href="#">Voucher Generator</a>
+                            <a href="#">Subscriber Accounts</a>
+                            <a href="#">User Profiles</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="nav-section">
+                    <span class="section-title">Financials</span>
+                    
+                    <div class="dropdown-wrapper">
+                        <button class="nav-item dropdown-btn">
+                            <i class="fas fa-wallet"></i>
+                            <span class="menu-text">Billing</span>
+                            <i class="fas fa-chevron-down arrow-icon"></i>
+                        </button>
+                        <div class="dropdown-container">
+                            <a href="#">Transactions Log</a>
+                            <a href="#">Invoices & Receipts</a>
+                            <a href="#">Financial Reports</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="nav-section">
+                    <span class="section-title">Marketing</span>
+                    <a href="#" class="nav-item">
+                        <i class="fas fa-window-maximize"></i>
+                        <span class="menu-text">Captive Portal</span>
+                    </a>
+                    <a href="#" class="nav-item">
+                        <i class="fas fa-bullhorn"></i>
+                        <span class="menu-text">Campaigns / SMS</span>
+                    </a>
+                </div>
+
+                <div class="nav-section">
+                    <span class="section-title">System</span>
+                    <a href="#" class="nav-item">
+                        <i class="fas fa-sliders"></i>
+                        <span class="menu-text">Configuration</span>
+                    </a>
+                    <a href="#" class="nav-item">
+                        <i class="fas fa-shield-halved"></i>
+                        <span class="menu-text">Roles & Perms</span>
+                    </a>
+                </div>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <div class="user-avatar">
+                    <i class="fas fa-user-shield"></i>
+                </div>
+                <div class="user-info">
+                    <span class="user-name">Admin Jack</span>
+                    <span class="user-role">Super Owner</span>
+                </div>
+            </div>
+        </aside>
+
+        <main class="main-content" id="main-content">
+            <h1>Dashboard</h1>
+            <p>Main analytics and real-time graphs will populate here.</p>
+        </main>
+    </div>
+
+    <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+    <script src="dash.js"></script>
+</body>
+</html>

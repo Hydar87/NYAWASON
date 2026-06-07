@@ -1,0 +1,378 @@
+:root {
+    --bg-primary: #1e1e2f;
+    --bg-secondary: #141423;
+    --bg-hover: #2b2b40;
+    --text-main: #ffffff;
+    --text-muted: #7e7e9a;
+    --accent-color: #4e73df;
+    --success: #1cc88a;
+    --danger: #e74a3b;
+    --sidebar-width: 260px;
+    --sidebar-mini-width: 70px;
+    --header-height: 60px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #f8f9fc;
+    color: #333;
+    overflow-x: hidden;
+}
+
+.app-container {
+    display: flex;
+}
+
+/* --- SIDEBAR CONTAINER --- */
+.sidebar {
+    width: var(--sidebar-width);
+    height: 100vh;
+    background-color: var(--bg-primary);
+    color: var(--text-main);
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    z-index: 200;
+    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.sidebar-header {
+    height: var(--header-height);
+    background-color: var(--bg-secondary);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    position: relative;
+}
+
+.logo-group {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    overflow: hidden;
+}
+
+.logo-icon {
+    font-size: 1.4rem;
+    color: var(--accent-color);
+    flex-shrink: 0;
+}
+
+.logo-text {
+    font-weight: 600;
+    font-size: 1.1rem;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+    transition: opacity 0.2s ease;
+}
+
+.pin-btn {
+    background: var(--bg-hover);
+    border: none;
+    color: var(--text-main);
+    cursor: pointer;
+    font-size: 1rem;
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s ease;
+    flex-shrink: 0;
+}
+.pin-btn:hover {
+    background-color: var(--accent-color);
+}
+
+.sidebar-nav {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 15px 0;
+}
+
+.nav-section {
+    margin-bottom: 20px;
+}
+
+.section-title {
+    display: block;
+    padding: 0 20px;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+    white-space: nowrap;
+    transition: opacity 0.2s;
+}
+
+/* Nav Link Rules */
+.nav-item {
+    display: flex;
+    align-items: center;
+    padding: 12px 20px;
+    color: var(--text-muted);
+    text-decoration: none;
+    background: none;
+    border: none;
+    width: 100%;
+    text-align: left;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s;
+    gap: 12px;
+    position: relative;
+}
+
+.nav-item i:not(.arrow-icon) {
+    width: 20px;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+}
+
+.menu-text {
+    white-space: nowrap;
+    transition: opacity 0.2s ease;
+}
+
+.nav-item:hover, .dropdown-btn:hover {
+    background-color: var(--bg-hover);
+    color: var(--text-main);
+}
+
+.nav-item.active {
+    background-color: var(--bg-hover);
+    color: var(--text-main);
+    border-left: 4px solid var(--accent-color);
+    padding-left: 16px;
+}
+
+.badge {
+    margin-left: auto;
+    padding: 2px 7px;
+    border-radius: 10px;
+    font-size: 0.75rem;
+    font-weight: bold;
+    color: white;
+    transition: opacity 0.2s;
+}
+.badge-success { background-color: var(--success); }
+.badge-danger { background-color: var(--danger); }
+
+/* Dropdown Accordion Blocks */
+.dropdown-wrapper {
+    position: relative;
+}
+
+.arrow-icon {
+    margin-left: auto;
+    font-size: 0.8rem;
+    transition: transform 0.3s ease, opacity 0.2s;
+}
+
+.dropdown-container {
+    max-height: 0;
+    overflow: hidden;
+    background-color: var(--bg-secondary);
+    transition: max-height 0.3s ease-out;
+}
+
+.dropdown-container a {
+    display: block;
+    padding: 10px 20px 10px 52px;
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color 0.2s, background-color 0.2s;
+    white-space: nowrap;
+}
+
+.dropdown-container a:hover {
+    color: var(--text-main);
+    background-color: rgba(255, 255, 255, 0.02);
+}
+
+.dropdown-wrapper.open .arrow-icon {
+    transform: rotate(180deg);
+}
+.dropdown-wrapper.open .dropdown-container {
+    max-height: 200px;
+}
+
+.sidebar-footer {
+    padding: 15px 20px;
+    background-color: var(--bg-secondary);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    overflow: hidden;
+}
+
+.user-avatar {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    background-color: var(--bg-hover);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--accent-color);
+    flex-shrink: 0;
+}
+
+.user-info {
+    display: flex;
+    flex-direction: column;
+    transition: opacity 0.2s;
+}
+
+.user-name { font-size: 0.9rem; font-weight: 500; white-space: nowrap; }
+.user-role { font-size: 0.75rem; color: var(--text-muted); white-space: nowrap; }
+
+
+/* --- SHARED STYLING RULES FOR ALL MINIMIZED VIEWS (data-state="mini") --- */
+.sidebar[data-state="mini"] {
+    width: var(--sidebar-mini-width);
+}
+
+.sidebar[data-state="mini"] .sidebar-header {
+    justify-content: center;
+    padding: 0;
+}
+
+.sidebar[data-state="mini"] .logo-text,
+.sidebar[data-state="mini"] .section-title,
+.sidebar[data-state="mini"] .menu-text,
+.sidebar[data-state="mini"] .arrow-icon,
+.sidebar[data-state="mini"] .badge,
+.sidebar[data-state="mini"] .user-info {
+    opacity: 0;
+    pointer-events: none;
+    position: absolute;
+}
+
+/* Hover-activated popup flyouts in mini state */
+.sidebar[data-state="mini"] .dropdown-wrapper:hover .dropdown-container {
+    position: fixed;
+    left: var(--sidebar-mini-width);
+    top: auto;
+    width: 210px;
+    max-height: 300px;
+    background-color: var(--bg-secondary);
+    box-shadow: 6px 6px 20px rgba(0, 0, 0, 0.4);
+    border-radius: 0 6px 6px 0;
+    z-index: 999;
+    padding: 6px 0;
+    overflow: visible;
+}
+
+.sidebar[data-state="mini"] .dropdown-wrapper:hover .dropdown-container a {
+    padding: 12px 20px;
+}
+
+
+/* --- DESKTOP SPECIFIC ALIGNMENT --- */
+@media (min-width: 993px) {
+    .main-content {
+        margin-left: var(--sidebar-width);
+        padding: 30px;
+        width: calc(100% - var(--sidebar-width));
+        transition: margin-left 0.3s ease, width 0.3s ease;
+    }
+
+    .sidebar[data-state="mini"] ~ .main-content {
+        margin-left: var(--sidebar-mini-width);
+        width: calc(100% - var(--sidebar-mini-width));
+    }
+}
+
+
+/* --- MAXIMUM ADVANCED RESPONSIVENESS (SMARTPHONES & TABLETS) --- */
+.mobile-header { display: none; }
+.sidebar-overlay { display: none; }
+
+@media (max-width: 992px) {
+    .mobile-header {
+        display: flex;
+        align-items: center;
+        height: var(--header-height);
+        background-color: var(--bg-primary);
+        color: white;
+        padding: 0 20px;
+        position: fixed;
+        top: 0; left: 0; right: 0;
+        z-index: 150;
+    }
+
+    .toggle-btn {
+        background: none; border: none;
+        color: white; font-size: 1.3rem; cursor: pointer;
+    }
+
+    .mobile-logo { margin-left: 15px; font-weight: 600; }
+
+    /* Hide sidebar completely by default offscreen left */
+    .sidebar {
+        transform: translateX(-100%);
+        top: var(--header-height);
+        height: calc(100vh - var(--header-height));
+        z-index: 250;
+    }
+
+    /* Active visibility triggers via script toggling classes */
+    .sidebar.mobile-show {
+        transform: translateX(0);
+    }
+
+    /* Fixed alignment layout adjustments for the mini state on phones */
+    .sidebar[data-state="mini"].mobile-show {
+        width: var(--sidebar-mini-width) !important;
+    }
+
+    .sidebar .pin-btn {
+        background: transparent; /* Cleaner flat presentation inside header bounds */
+    }
+
+    .main-content {
+        margin-left: 0 !important;
+        width: 100% !important;
+        padding: 20px;
+        padding-top: calc(var(--header-height) + 20px);
+    }
+
+    /* Background Dimming Screen Mask Layer */
+    .sidebar-overlay {
+        position: fixed;
+        top: var(--header-height); left: 0; right: 0; bottom: 0;
+        background-color: rgba(0, 0, 0, 0.55);
+        z-index: 180;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s ease;
+    }
+    
+    .sidebar-overlay.show {
+        display: block;
+        opacity: 1;
+        pointer-events: auto;
+    }
+}
+
+/* Specific optimization tweaks for narrow modern screens (iPhone SE, tiny phones) */
+@media (max-width: 360px) {
+    .sidebar[data-state="mini"] .dropdown-wrapper:hover .dropdown-container {
+        width: 180px; /* Reduces width slightly to prevent overflow on tiny displays */
+    }
+}
